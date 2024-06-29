@@ -8,7 +8,7 @@ if(isset($_GET['message']) && $_GET['message'] == 'password_changed'){
 }
 
 $max_attempts = 5;
-$block_time = 1 * 30;
+$block_time = 30;
 
 $ip_address = $_SERVER['REMOTE_ADDR'];
 
@@ -18,6 +18,17 @@ $attempts = $checkAttempts->fetch();
 
 if($attempts['attempt_count'] >= $max_attempts){
     $message = 'Trop de tentatives échouées. Veuillez réessayer dans 30 secondes.';
+    echo '<!DOCTYPE html>
+          <html>
+              <head>
+                  <meta charset="utf-8" />
+                  <title>Connexion</title>
+              </head>
+              <body>
+                  <p align="center">'.htmlspecialchars($message).'</p>
+              </body>
+          </html>';
+    exit();
 } else {
     if(isset($_POST['envoie'])){
         if(!empty($_POST['pseudo']) AND !empty($_POST['mdp'])){
